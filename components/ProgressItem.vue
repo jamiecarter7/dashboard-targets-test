@@ -80,7 +80,7 @@
       </div>
     </div>
   </div>
-  {{ props }}
+  <!-- {{ props }} -->
 </template>
 
 <script setup lang="ts">
