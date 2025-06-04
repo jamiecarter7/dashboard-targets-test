@@ -359,7 +359,7 @@
           v-if="goalValue !== null"
           class="bg-[#0275EB] text-white p-2.5 w-full rounded-md"
           @click="
-            goalsStore.addGoal(getGoalString(0, goalValue), actionsText);
+            goalsStore.addGoal(getGoalString(0, goalValue), actionsText, 10000);
             closeSidebar();
             clearFormDelay();
           "
@@ -432,8 +432,6 @@ function clearFormDelay() {
     clearForm();
   }, 200);
 }
-
-const goalTextString = useTemplateRef("goal-text");
 
 function getGoalString(index: number, patients: number): string {
   if (index === 0) {

@@ -56,8 +56,9 @@
       </div>
     </div>
     <div class="mt-2">
-      <p class="text-right font-condensed mb-2">
-        Progress text {{ $props.progress }}
+      <p class="text-right font-condensed mb-2 font-medium">
+        {{ formattedProgressString }} of {{ props.denominator }} overdue
+        patients called
       </p>
       <div class="bg-[#ECEEB1] w-full h-[36px] rounded-md overflow-hidden">
         <span
@@ -79,6 +80,7 @@
       </div>
     </div>
   </div>
+  {{ props }}
 </template>
 
 <script setup lang="ts">
@@ -86,6 +88,7 @@ const props = defineProps<{
   keyIndex: number;
   title: string;
   actions: string;
+  denominator: number;
   progress?: number;
 }>();
 
@@ -93,6 +96,10 @@ const show = ref(false);
 
 const formattedActions = computed(() => {
   return props.actions.split("\n").map((action) => action.trim());
+});
+
+const formattedProgressString = computed(() => {
+  return (props.denominator / 100) * (props.progress || 0);
 });
 
 function test() {

@@ -7,6 +7,7 @@
             :key-index="index"
             :title="goal.title"
             :actions="goal.actions"
+            :denominator="goal.denominator"
             :progress="goal.progress"
           />
         </li>

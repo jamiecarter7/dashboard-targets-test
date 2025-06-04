@@ -3,17 +3,20 @@ import { defineStore } from "pinia";
 type Goal = {
   title: string;
   actions: string;
+  denominator: number;
   progress: number;
 };
 
 export const useGoalsStore = defineStore("goal", () => {
   const goals = ref([] as Goal[]);
 
-  function addGoal(title: string, actions: string, progress: number = 0) {
-    goals.value.push({ title, actions, progress });
-    console.log(
-      `Goal added: ${title}, Actions: ${actions}, Progress: ${progress}`
-    );
+  function addGoal(
+    title: string,
+    actions: string,
+    denominator: number,
+    progress: number = 0
+  ) {
+    goals.value.push({ title, actions, denominator, progress });
   }
 
   function randomiseProgress() {
