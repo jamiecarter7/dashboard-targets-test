@@ -2,8 +2,10 @@
   <div
     class="relative bg-[#FEFFD8] grid grid-cols-2 p-5 shadow-md shadow-black/7 gap-8 pr-10 min-h-[140px] rounded-md border-t border-[#ECEEB1]/50"
   >
-    <div
-      class="absolute top-1 right-1 hover:bg-[#ECEEB1] border-2 border-[#ECEEB1] flex gap-0.75 p-2 px-1 rounded-sm peer"
+    <button
+      class="absolute top-1 right-1 border-2 border-[#ECEEB1] flex gap-0.75 p-2 px-1 rounded-sm"
+      :class="{ 'focus:bg-[#ECEEB1]': show }"
+      @click="show = !show"
     >
       <svg width="4" height="4">
         <circle cx="2" cy="2" r="2" fill="#9E9600" />
@@ -14,8 +16,31 @@
       <svg width="4" height="4">
         <circle cx="2" cy="2" r="2" fill="#9E9600" />
       </svg>
+    </button>
+    <div
+      v-if="show"
+      :id="'menu-' + keyIndex"
+      class="absolute top-7 shadow-md shadow-black/8 right-1 bg-white rounded-sm overflow-hidden py-1"
+    >
+      <ul class="flex flex-col w-20">
+        <li>
+          <button
+            class="hover:bg-[#BED4FA60] text-sm w-full text-left px-3 py-2 duration-200 easy-out"
+            @click="test()"
+          >
+            Edit
+          </button>
+        </li>
+        <li><hr class="text-black/10 mx-1.5" /></li>
+        <li>
+          <button
+            class="hover:bg-[#FABEBE75] hover:text-red-700 text-sm w-full text-left px-3 py-2 duration-200 easy-out"
+          >
+            Delete
+          </button>
+        </li>
+      </ul>
     </div>
-    <div class="absolute top-1 right-1"></div>
     <div class="">
       <h2
         class="text-lg font-semibold text-[#483D04] !text-xl font-condensed mb-2"
@@ -58,12 +83,37 @@
 
 <script setup lang="ts">
 const props = defineProps<{
+  keyIndex: number;
   title: string;
   actions: string;
   progress?: number;
 }>();
 
+const show = ref(false);
+
 const formattedActions = computed(() => {
   return props.actions.split("\n").map((action) => action.trim());
+});
+
+function test() {
+  console.log("Edit button clicked");
+}
+
+function handleClickOutside(event: MouseEvent) {
+  const modal = document.getElementById("menu-" + props.keyIndex);
+  console.log(show.value, modal, event.target);
+
+  if (modal && !modal.contains(event.target as Node) && show.value) {
+    show.value = false;
+    console.log("trigerred");
+  }
+}
+
+onMounted(() => {
+  document.addEventListener("click", handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleClickOutside);
 });
 </script>

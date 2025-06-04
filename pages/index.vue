@@ -4,7 +4,7 @@
       <ul class="grid gap-5">
         <li v-for="(goal, index) in goalsStore.goals" v-bind:key="index">
           <ProgressItem
-            :key="index"
+            :key-index="index"
             :title="goal.title"
             :actions="goal.actions"
             :progress="goal.progress"
