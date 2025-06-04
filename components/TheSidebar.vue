@@ -1,18 +1,21 @@
 <template>
   <div
-    class="fixed top-0 right-0 h-full w-[450px] bg-white drop-shadow-md text-black p-[20px] py-[16px] pb-[64px] text-[18px] z-10 overflow-y-scroll duration-300 ease-in-out"
+    class="fixed top-0 right-0 h-full w-[450px] bg-white drop-shadow-md text-black p-[20px] py-[16px] pb-[64px] text-[18px] z-10 overflow-y-scroll duration-200 ease-in-out"
     :class="{
       'translate-x-0': props.show,
       'translate-x-full': !props.show,
     }"
   >
     <div class="flex justify-between items-center just">
-      <button
-        class="flex items-center font-bold"
-        @click.prevent="closeSidebar()"
-      >
-        <UIcon name="i-codex-cross" class="size-10 text-3xl -ml-[8px]" /> Close
-      </button>
+      <div class="relative">
+        <button
+          class="flex items-center after:absolute after:top-0 after:left-0 before:bg-white hover:after:bg-[#efefef] after:w-full after:h-full after:-z-10 after:scale-x-125 after:scale-y-110 after:rounded-md"
+          @click.prevent="closeSidebar()"
+        >
+          <UIcon name="i-codex-cross" class="size-10 text-3xl -ml-[8px]" />
+          Close
+        </button>
+      </div>
       <button
         class="text-black/60 text-[16px] hover:underline decoration-1 underline-offset-4"
         @click.prevent="clearForm()"
@@ -136,12 +139,15 @@
         </h3>
         <button
           v-if="goalValue !== null"
-          class="text-[#007EFF] !text-[16px] absolute top-[16px] right-[20px] hover:underline decoration-1 underline-offset-4 z-10"
+          class="text-[#007EFF] !text-[16px] absolute top-[16px] right-[20px] hover:underline decoration-1 underline-offset-4 z-10 duration-200 transform-"
           @click.prevent="goalValue = null"
         >
           Edit
         </button>
-        <div v-if="goalValue === null" class="grid grid-cols-2 gap-4">
+        <div
+          v-if="goalValue === null && step2designs === 'original'"
+          class="grid grid-cols-2 gap-4"
+        >
           <div>
             <h4 class="text-sm font-bold mt-2 mb-3">Activity in Q1 2025</h4>
             <div
@@ -175,9 +181,84 @@
             </label>
             <p class="text-sm">
               Call
-              {{ calcGoalValue.toLocaleString("en", { useGrouping: true }) }}
+              <span class="">
+                <span
+                  class="relative z-10 after:absolute after:top-0 after:left-1/2 after:w-[calc(100%+4px)] after:rounded-sm after:-translate-x-1/2 after:h-full after:bg-yellow-300/0 after:-z-10 after:duration-1000 after:ease-out"
+                  :class="{
+                    'after:bg-yellow-300/100': recentUpdate,
+                  }"
+                >
+                  {{
+                    calcGoalValue.toLocaleString("en", { useGrouping: true })
+                  }}
+                </span>
+              </span>
               overdue patients by Jun-30
             </p>
+          </div>
+        </div>
+
+        <!-- ALT1 -->
+        <div
+          v-if="goalValue === null && step2designs === 'step2-alt'"
+          class="grid gap-4"
+        >
+          <div>
+            <h4 class="text-sm font-bold mt-2 mb-3">Activity in Q1 2025</h4>
+
+            <div class="flex gap-4 items-center">
+              <div
+                class="bg-[#D9E6F6] flex p-0.5 rounded-md w-16 items-center h-[38px]"
+              >
+                <p
+                  class="text-[#323232] bg-[#D9E6F6] text-center w-full font-semibold"
+                >
+                  6%
+                </p>
+              </div>
+              <p class="text-sm">Called 600 of 10,000 overdue patients</p>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-sm font-bold mt-2 mb-3">Goal for Q2 2025</h4>
+            <label
+              class="border border-[#CAD0D7] bg-white flex p-0.5 rounded-md w-28 mb-2"
+            >
+              <input
+                v-model.number="goal"
+                type="text"
+                class="block text-right p-0.5 px-2 py-1 text-base w-[calc(100%-30px)]"
+                min="0"
+                max="100"
+                placeholder="Goal"
+              />
+              <div
+                class="bg-[#F0F0F0] text-black/50 flex items-center justify-center w-8 rounded-xs flex-none"
+              >
+                %
+              </div>
+            </label>
+            <p class="text-[#007EFF] text-[17px] pt-1">
+              Call
+              <span class="">
+                <span
+                  class="relative z-10 after:absolute after:top-0 after:left-1/2 after:w-[calc(100%+4px)] after:rounded-sm after:-translate-x-1/2 after:h-full after:bg-yellow-300/0 after:-z-10 after:duration-1000 after:ease-out"
+                  :class="{
+                    'after:bg-yellow-300/100': recentUpdate,
+                  }"
+                >
+                  {{
+                    calcGoalValue.toLocaleString("en", { useGrouping: true })
+                  }}
+                </span>
+              </span>
+              overdue patients by Jun-30
+            </p>
+            <!-- <p class="text-base">
+              Call
+              {{ calcGoalValue.toLocaleString("en", { useGrouping: true }) }}
+              overdue patients by Jun-30
+            </p> -->
           </div>
         </div>
         <button
@@ -295,6 +376,7 @@ import { defineProps, ref } from "vue";
 
 const props = defineProps<{
   show: boolean | null;
+  step2designs: string;
 }>();
 
 const indicator = ref<string>("");
@@ -319,6 +401,22 @@ const calcGoalValue = computed(() => {
 const goalValue = ref<number | null>(null);
 
 const actionsText = ref<string>("");
+
+const recentUpdate = ref(false);
+
+watch(goal, (newValue, oldValue) => {
+  if (newValue !== oldValue) {
+    recentUpdate.value = true;
+    if (debounceTimeout.value) {
+      clearTimeout(debounceTimeout.value);
+    }
+    debounceTimeout.value = setTimeout(() => {
+      recentUpdate.value = false;
+    }, 750);
+  }
+});
+
+const debounceTimeout = ref<NodeJS.Timeout | null>(null);
 
 function clearForm() {
   indicator.value = "";
