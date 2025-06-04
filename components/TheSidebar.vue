@@ -15,12 +15,7 @@
       </button>
       <button
         class="text-black/60 text-[16px] hover:underline decoration-1 underline-offset-4"
-        @click.prevent="
-          indicator = '';
-          goal = null;
-          goalValue = null;
-          actionsText = '';
-        "
+        @click.prevent="clearForm()"
       >
         Clear form
       </button>
@@ -279,6 +274,10 @@
         <button
           v-if="goalValue !== null"
           class="bg-[#0275EB] text-white p-2.5 w-full rounded-md"
+          @click="
+            closeSidebar();
+            clearFormDelay();
+          "
         >
           Create
         </button>
@@ -320,4 +319,17 @@ const calcGoalValue = computed(() => {
 const goalValue = ref<number | null>(null);
 
 const actionsText = ref<string>("");
+
+function clearForm() {
+  indicator.value = "";
+  goal.value = null;
+  goalValue.value = null;
+  actionsText.value = "";
+}
+
+function clearFormDelay() {
+  setTimeout(() => {
+    clearForm();
+  }, 200);
+}
 </script>
