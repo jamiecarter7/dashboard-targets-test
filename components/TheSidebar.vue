@@ -204,11 +204,11 @@
           class="grid gap-4"
         >
           <div>
-            <h4 class="text-sm font-bold mt-2 mb-3">Activity in Q1 2025</h4>
+            <h4 class="text-sm font-bold mt-2 mb-2">Activity in Q1 2025</h4>
 
             <div class="flex gap-4 items-center">
               <div
-                class="bg-[#D9E6F6] flex p-0.5 rounded-md w-16 items-center h-[38px]"
+                class="bg-[#D9E6F6] flex p-0.5 rounded-md w-16 shrink-0 items-center h-[38px]"
               >
                 <p
                   class="text-[#323232] bg-[#D9E6F6] text-center w-full font-semibold"
@@ -220,7 +220,7 @@
             </div>
           </div>
           <div>
-            <h4 class="text-sm font-bold mt-2 mb-3">Goal for Q2 2025</h4>
+            <h4 class="text-sm font-bold mt-2 mb-2">Goal for Q2 2025</h4>
             <label
               class="border border-[#CAD0D7] bg-white flex p-0.5 rounded-md w-28 mb-2"
             >
@@ -230,7 +230,7 @@
                 class="block text-right p-0.5 px-2 py-1 text-base w-[calc(100%-30px)]"
                 min="0"
                 max="100"
-                placeholder="Goal"
+                placeholder="Q2 goal"
               />
               <div
                 class="bg-[#F0F0F0] text-black/50 flex items-center justify-center w-8 rounded-xs flex-none"
@@ -271,7 +271,11 @@
           Next
         </button>
         <p v-else class="text-[#007EFF] text-[17px] pt-2 pb-0">
-          Call {{ goalValue }} overdue patients by Jun-30
+          Call
+          {{
+            calcGoalValue.toLocaleString("en", { useGrouping: true })
+          }}
+          overdue patients by Jun-30
         </p>
 
         <!-- STEP3 STEP3 STEP3 STEP3 STEP3 STEP3 STEP3 STEP3 -->
