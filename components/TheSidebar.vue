@@ -17,7 +17,8 @@
         </button>
       </div>
       <button
-        class="text-black/60 text-[16px] hover:underline decoration-1 underline-offset-4"
+        v-if="indicator.length > 0"
+        class="text-black/60 text-[16px] hover:underline decoration-1 underline-offset-4 starting:text-black/0 duration-200"
         @click.prevent="clearForm()"
       >
         Clear form
@@ -238,7 +239,7 @@
                 %
               </div>
             </label>
-            <p class="text-[#007EFF] text-[17px] pt-1">
+            <p ref="goal-text" class="text-[#007EFF] text-[17px] pt-1">
               Call
               <span class="">
                 <span
@@ -272,9 +273,7 @@
         </button>
         <p v-else class="text-[#007EFF] text-[17px] pt-2 pb-0">
           Call
-          {{
-            calcGoalValue.toLocaleString("en", { useGrouping: true })
-          }}
+          {{ calcGoalValue.toLocaleString("en", { useGrouping: true }) }}
           overdue patients by Jun-30
         </p>
 
@@ -360,6 +359,7 @@
           v-if="goalValue !== null"
           class="bg-[#0275EB] text-white p-2.5 w-full rounded-md"
           @click="
+            goalsStore.addGoal(getGoalString(0, goalValue), actionsText);
             closeSidebar();
             clearFormDelay();
           "
@@ -367,17 +367,15 @@
           Create
         </button>
       </div>
-      <!-- {{ indicator }}
+      {{ indicator }}
       {{ goal }}
       {{ calcGoalValue > 0 ? calcGoalValue : null }}
-      {{ goalValue }} -->
+      {{ goalValue }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref } from "vue";
-
 const props = defineProps<{
   show: boolean | null;
   step2designs: string;
@@ -434,4 +432,21 @@ function clearFormDelay() {
     clearForm();
   }, 200);
 }
+
+const goalTextString = useTemplateRef("goal-text");
+
+function getGoalString(index: number, patients: number): string {
+  if (index === 0) {
+    return (
+      "Call " +
+      patients.toLocaleString("en", { useGrouping: true }) +
+      " overdue patients by Jun-30"
+    );
+  }
+  // return goalTextString.value
+  //   ? (goalTextString.value as HTMLElement).$el.textContent?.trim()
+  //   : "";
+}
+
+const goalsStore = useGoalsStore();
 </script>
