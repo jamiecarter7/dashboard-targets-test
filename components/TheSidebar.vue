@@ -121,8 +121,8 @@
             </button>
           </li>
         </ul>
-
-        <p v-else class="text-[#007EFF] text-[17px] pt-2 pb-0">
+        <!-- text-[#007EFF] -->
+        <p v-else class="text-stone-800 text-[17px] pt-2 pb-0">
           Contact overdue patients
         </p>
       </div>
@@ -152,10 +152,10 @@
           <div>
             <h4 class="text-sm font-bold mt-2 mb-3">Activity in Q1 2025</h4>
             <div
-              class="bg-[#D9E6F6] flex p-0.5 rounded-md w-16 items-center h-[38px] mb-2"
+              class="bg-[#D9E6F6] flex p-0.75 rounded-md w-16 items-center h-[38px] mb-2"
             >
               <p
-                class="text-[#323232] bg-[#D9E6F6] text-center w-full font-semibold"
+                class="text-[#323232] text-center w-full font-semibold text-xl"
               >
                 6%
               </p>
@@ -239,7 +239,7 @@
                 %
               </div>
             </label>
-            <p ref="goal-text" class="text-[#007EFF] text-[17px] pt-1">
+            <p ref="goal-text" class="text-stone-800 text-[17px] pt-1">
               Call
               <span class="">
                 <span
@@ -271,7 +271,7 @@
         >
           Next
         </button>
-        <p v-else class="text-[#007EFF] text-[17px] pt-2 pb-0">
+        <p v-else class="text-stone-800 text-[17px] pt-2 pb-0">
           Call
           {{ calcGoalValue.toLocaleString("en", { useGrouping: true }) }}
           overdue patients by Jun-30
