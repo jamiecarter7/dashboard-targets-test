@@ -19,6 +19,7 @@
           indicator = '';
           goal = null;
           goalValue = null;
+          actionsText = '';
         "
       >
         Clear form
@@ -207,13 +208,14 @@
         <h3 class="!font-semibold font-condensed inline-block">
           What action should be taken?
         </h3>
-        <div rows="4">
+        <div>
           <textarea
             id=""
             v-model="actionsText"
             name=""
             cols="30"
-            class="block mt-3 p-4 py-3 text-base bg-white border border-[#CAD0D7] bg-white flex p-0.5 rounded-md w-28 mb-2 w-full field-sizing-content min-height-32"
+            rows="4"
+            class="block mt-3 p-4 py-3 text-base bg-white border border-[#CAD0D7] bg-white flex p-0.5 rounded-md w-28 mb-2 w-full min-height-32"
             placeholder="Write actions or select from list below..."
           ></textarea>
         </div>
