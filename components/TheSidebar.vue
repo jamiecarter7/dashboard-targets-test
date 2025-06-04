@@ -30,7 +30,7 @@
       <div
         class="bg-[#EFF8FF] !border !border-[#D5E6FF] py-4 px-[20px] rounded-md relative"
       >
-        <h3 class="!font-semibold font-condensed inline-block">
+        <h3 class="!font-medium font-condensed inline-block">
           Which indicator to improve?
         </h3>
         <button
@@ -135,7 +135,7 @@
         v-if="indicator.length > 0"
         class="bg-[#EFF8FF] !border !border-[#D5E6FF] py-4 px-[20px] pb-5 rounded-md relative"
       >
-        <h3 class="!font-semibold font-condensed inline-block">
+        <h3 class="!font-medium font-condensed inline-block">
           What is the goal?
         </h3>
         <button
@@ -284,7 +284,7 @@
         v-if="goalValue !== null"
         class="bg-[#EFF8FF] !border !border-[#D5E6FF] py-4 px-[20px] rounded-md relative"
       >
-        <h3 class="!font-semibold font-condensed inline-block">
+        <h3 class="!font-medium font-condensed inline-block">
           What action should be taken?
         </h3>
         <div>
